@@ -1,6 +1,6 @@
 ﻿<#	
 	.DESCRIPTION
-		This script will simply install and launch teams on a computer.
+		This script will simply install Teams for the current user.
 		Below is the Teams Work or School download URL as of Jan 18, 2023
 		https://go.microsoft.com/fwlink/p/?LinkID=2187327&clcid=0x1009&culture=en-ca&country=CA
 #>
@@ -18,7 +18,7 @@ Start-Transcript -Path "$WorkingFolder\TeamsInstaller.log"
 #Below will download and install teams if it isn't installed for the user.
 If ($(Test-Path -type Leaf -Path "C:\Users\$($env:USERNAME)\AppData\Local\Microsoft\Teams\Update.exe") -eq $false)
 {
-	#URL retrieved on January 18, 2023 is the Teams for Work or School download URL for Teams.
+	#URL for downloading Teams
 	Invoke-WebRequest -Uri "$TeamsDownloadURL" -OutFile "$WorkingFolder\teamsSetup.exe"
 	#Check File Description before running to ensure it is Teams
 	$GetFileDesc = Get-item "$WorkingFolder\teamsSetup.exe"
