@@ -1,4 +1,4 @@
-﻿<#	
+<#	
 	.DESCRIPTION
 		This script will simply install Teams for the current user.
 		Below is the Teams Work or School download URL as of Jan 18, 2023
@@ -28,18 +28,18 @@ If ($(Test-Path -type Leaf -Path "C:\Users\$($env:USERNAME)\AppData\Local\Micros
 		Write-Host "The downloaded file has a description of Microsoft Teams, will continue."
 		#Checks if the downloaded file is signed by Microsoft
 		$GetFileCert = Get-AuthenticodeSignature "$WorkingFolder\teamsSetup.exe"
-		If (($($GetFileCert.Status) -eq "Valid") -and ($($GetFileCert.SignerCertificate.Subject) -match "O=Microsoft Corporation"))
+		If (($($GetFileCert.Status) -eq "Valid") -and ($($GetFileCert.SignerCertificate.Issuer) -eq "CN=Microsoft Code Signing PCA 2010, O=Microsoft Corporation, L=Redmond, S=Washington, C=US"))
 		{
 			Write-Host "The downloaded file has a cert that is: $($GetFileCert.Status)"
-			Write-Host "The downloaded file has a cert is signed by:  $($GetFileCert.SignerCertificate.Subject)"
+			Write-Host "The downloaded file has a cert issued by:  $($GetFileCert.SignerCertificate.Issuer)"
 			Write-Host "The downloaded file has been launched and will now install"
-			Start-Process -FilePath "C:\TeamsLauncher\TeamsSetup.exe" -Wait
+			Start-Process -FilePath "$WorkingFolder\TeamsSetup.exe" -Wait
 		}
 		else
 		{
 			Write-Host "The downloaded file is not VALID and Signed by Microsoft Will not run"
 			Write-Host "The downloaded file cert is:  $($GetFileCert.Status)"
-			Write-Host "The downloaded file has a cert is signed by:  $($GetFileCert.SignerCertificate.Subject)"
+			Write-Host "The downloaded file has a cert isused by:  $($GetFileCert.SignerCertificate.Issuer)"
 		}
 		
 	}
